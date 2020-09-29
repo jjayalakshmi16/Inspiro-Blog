@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     end
     
     def create
-        @post=current_user.posts.build(create_params)
+        @post= current_user.posts.build(create_params)
         if @post.save
             redirect_to @post
         else
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     end
 
     def create_params
-    params.require(:post).permit(:link,:title,:description)
+    params.require(:post).permit(:link,:title,:description,:image)
     end
 
 
