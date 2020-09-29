@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-    before_action :find_param, only: [:show,:update,:edit,:destroy]
+    before_action :find_param, only: [:show,:update,:edit,:destroy,:upvote,:downvote]
     before_action :authenticate_user!, except: [:show,:index]
 
     def index
@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     end
 
     def show 
+        @comments=Comment.where(post_id: @post)
     end
 
     def new
@@ -37,6 +38,16 @@ class PostsController < ApplicationController
     def destroy
         @post.destroy
         redirect_to root_path
+    end
+    
+    def upvote
+      @post.upvote_by current_user
+      redirect_back(fallback_location: root_path)
+    end
+
+    def downvote
+        @post.downvote_by current_user
+        redirect_back(fallback_location: root_path)
     end
 
     private
